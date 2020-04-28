@@ -78,7 +78,7 @@ int find_free_range(FILE *f, const char* owner, unsigned int min, unsigned int m
     assert(result);
 
     size_t entries_next = 0; 
-    size_t entries_max = 10;
+    size_t entries_max = 0;
     __attribute__((__cleanup__(cleanup_voidp)))
     struct subxid_entry *entries = reallocarray(NULL, 0, sizeof(struct subxid_entry));
     if (!entries) {
@@ -161,14 +161,14 @@ int find_free_range(FILE *f, const char* owner, unsigned int min, unsigned int m
     return -ERANGE;
 }
 
-// See FreeIPA's ipaserver/install/server/__init__.py
-//static const uid_t freeipa_xid_max = 10000UL * 200000UL + 199999UL;
+struct xid xid_u = { .c = 'u', .file = "/etc/subuid", .param_min = "SUB_UID_MIN", .param_max = "SUB_UID_MAX", .param_count = "SUB_UID_COUNT" };
+struct xid xid_g = { .c = 'g', .file = "/etc/subgid", .param_min = "SUB_GID_MIN", .param_max = "SUB_GID_MAX", .param_count = "SUB_GID_COUNT" };
 
-int find_new_subuid_range(const char* user, uid_t *range_start, unsigned int *range_count) {
+int find_new_subxid_range(const struct xid *which, const char *user, unsigned int *range_start, unsigned int *range_count) {
     assert(range_start);
     assert(range_count);
 
-    uid_t min, max;
+    unsigned int min, max;
     unsigned int count;
     {
         __attribute__((__cleanup__(cleanup_FILEp)))
@@ -178,43 +178,44 @@ int find_new_subuid_range(const char* user, uid_t *range_start, unsigned int *ra
             return -ENOENT;
         }
 
-        if (logindef_uint(f, "SUB_UID_MIN", 100000UL, &min) != 0) {
-            syslog(LOG_AUTHPRIV | LOG_ALERT, "Could not retrieve SUB_UID_MIN from /etc/login.defs");
+        if (logindef_uint(f, which->param_min, 100000UL, &min) != 0) {
+            syslog(LOG_AUTHPRIV | LOG_ALERT, "Could not retrieve %s from /etc/login.defs", which->param_min);
             return -EBADMSG;
         }
 
-        //if (freeipa_xid_max > min) {
-        //    min = freeipa_xid_max;
-        //}
-        
-        if (logindef_uint(f, "SUB_UID_MAX", 600100000UL, &max) != 0) {
-            syslog(LOG_AUTHPRIV | LOG_ALERT, "Could not retrieve SUB_UID_MAX from /etc/login.defs");
+        if (logindef_uint(f, which->param_max, 600100000UL, &max) != 0) {
+            syslog(LOG_AUTHPRIV | LOG_ALERT, "Could not retrieve %s from /etc/login.defs", which->param_max);
             return -EBADMSG;
         };
 
-        if (logindef_uint(f, "SUB_UID_COUNT", 65536, &count) != 0) {
-            syslog(LOG_AUTHPRIV | LOG_ALERT, "Could not retrieve SUB_UID_COUNT from /etc/login.defs");
+        if (logindef_uint(f, which->param_count, 65536, &count) != 0) {
+            syslog(LOG_AUTHPRIV | LOG_ALERT, "Could not retrieve %s from /etc/login.defs", which->param_count);
             return -EBADMSG;
         }
     }
 
     if (min > max || count >= max || (min + count - 1) > max) {
-        syslog(LOG_AUTHPRIV | LOG_ALERT, "Invalid configuration; SUB_UID_MIN=%u SUB_UID_MAX=%u SUB_UID_COUNT=%u",
-            min, max, count);
+        syslog(LOG_AUTHPRIV | LOG_ALERT, "Invalid configuration; %s=%u %s=%u %s=%u",
+            which->param_min, min, which->param_max, max, which->param_count, count);
         return -EINVAL;
     }
 
-    uid_t start;
+    unsigned int start;
     {
         __attribute__((__cleanup__(cleanup_FILEp)))
-        FILE *f = fopen("/etc/subuid", "r");
+        FILE *f = fopen(which->file, "r");
         if (!f) {
-            syslog(LOG_AUTHPRIV | LOG_ALERT, "Could not open /etc/subuid");
+            syslog(LOG_AUTHPRIV | LOG_ALERT, "Could not open %s: %m", which->file);
             return -ENOENT;
         }
 
-        if (find_free_range(f, user, min, max, count, &start) != 0) {
-            syslog(LOG_AUTHPRIV | LOG_ALERT, "Can't find %u free subuids between %u and %u", count, min, max);
+        int r = find_free_range(f, user, min, max, count, &start);
+        if (r == -EEXIST) {
+            // The user already has a range, although we didn't check if it's
+            // large enough.
+            return -EEXIST;
+        } else if (r != 0) {
+            syslog(LOG_AUTHPRIV | LOG_ALERT, "Can't find %u free sub%cids between %u and %u", count, which->c, min, max);
             return -ENOMEM;
         }
     }
