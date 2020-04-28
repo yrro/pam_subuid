@@ -10,11 +10,11 @@
 
 #include "subxid.h"
 
-void cleanup_voidp(void* p) {
+static void cleanup_voidp(void* p) {
     free(*(void**)p);
 }
 
-void cleanup_FILEp(FILE **fp) {
+static void cleanup_FILEp(FILE **fp) {
     if (fp) {
         fclose(*fp);
     }
