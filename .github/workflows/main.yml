@@ -19,5 +19,10 @@ jobs:
 
     - uses: BSFishy/meson-build@v1.0.1
       with:
+        action: build
+        options: --verbose
+
+    - uses: BSFishy/meson-build@v1.0.1
+      with:
         action: test
         options: --verbose
