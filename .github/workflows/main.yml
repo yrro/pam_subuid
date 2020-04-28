@@ -9,15 +9,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    steps:
+    - name: Install build-dependencies
+      run: sudo apt-get install libpam-dev
+      
+    - uses: actions/checkout@v2
+      
+    - uses: actions/setup-python@v1
 
-steps:
-- name: Install build-dependencies
-  run: sudo apt-get install libpam-dev
-  
-- uses: actions/checkout@v2
-  
-- uses: actions/setup-python@v1
-
-- uses: BSFishy/meson-build@v1.0.1
-  with:
-    action: test
+    - uses: BSFishy/meson-build@v1.0.1
+      with:
+        action: test
