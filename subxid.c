@@ -92,7 +92,6 @@ int find_free_range(FILE *f, const char* owner, unsigned int min, unsigned int m
     while (errno = 0, getline(&line, &line_len, f) != -1) {
         __attribute__((__cleanup__(cleanup_voidp)))
         char *sub_xid_owner = NULL;
-        unsigned int sub_xid_start, sub_xid_count;
 
         struct subxid_entry e;
 
