@@ -10,6 +10,8 @@ project('pam_subuid', 'c',
   meson_version : '>= 0.46',
 )
 
+add_global_arguments('-Wno-pedantic', language : 'c')
+
 prefixdir = get_option('prefix')
 if not prefixdir.startswith('/')
   error('Prefix is not absolute: "@0@"'.format(prefixdir))
