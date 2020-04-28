@@ -25,7 +25,8 @@ libpam = cc.find_library('pam', required: true)
 
 pam_subuid = shared_library('pam_subuid',
   sources : [
-    'pam_subuid.c',
+    'subxid.c',
+    'pam.c',
   ],
   name_prefix : '',
   c_args : [
@@ -37,3 +38,15 @@ pam_subuid = shared_library('pam_subuid',
   install : true,
   install_dir : pamlibdir,
 )
+
+ctest = executable('ctest',
+  sources : [
+    'ctest.c',
+    'subxid.c',
+    'test_find_free_range.c',
+    'test_logindef_uint.c',
+    'test_subxid_entry_compare.c',
+  ],
+)
+test('ctest', ctest)
+
