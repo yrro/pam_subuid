@@ -70,3 +70,11 @@ from receiving the same allocation.
 
 The module depends on the `usermod(8)` command to actaully modify the
 subuid/subgid files.
+
+Acknowledgements
+----------------
+
+The code that searches for an unallocated subuid/subgid range was taken from
+[shadow](https://github.com/shadow-maint/shadow).
+
+We embed the [ctest](https://github.com/bvdberg/ctest) unit testing framework.
