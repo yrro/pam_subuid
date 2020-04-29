@@ -65,6 +65,9 @@ If a user has an existing subuid or subgid allocation then they won't receive a
 new one, even if the existing one is too small per `SUB_UID_COUNT` and
 `SUB_GID_COUNT`.
 
+The first field of `/etc/subuid` and `/etc/subgid` can be a user ID as well as
+a user name. The module can't handle that yet.
+
 Locking is performed to try to prevent two users logging in at the same time
 from receiving the same allocation.
 
