@@ -46,6 +46,13 @@ Then log in and check for newly created entries in `/etc/subuid` and
 Remarks
 -------
 
+⚠️ This module is a proof-of-concept. It is not battle-hardened. Don't install
+it on your important production cluster. But please try it out and send
+feedback (or pull requests!)
+
+⚠️ I'm not an expert C programmer! I've used GNU extensions and probably
+committed other sins that may turn the stomach of seasoned systems programmers.
+
 subuid entries will be allocated from the range defined in `login.defs(5)` by
 `SUB_UID_MIN` and `SUB_UID_MAX`. The number of entries is determined by
 `SUB_UID_COUNT`.
@@ -53,10 +60,12 @@ subuid entries will be allocated from the range defined in `login.defs(5)` by
 `SUB_GID_MIN`, `SUB_GID_MAX` and `SUB_GID_COUNT` determine how subgid entires
 are allocated.
 
-If a user has any existing allocations then the module does nothing.
+If a user has an existing subuid or subgid allocation then they won't receive a
+new one, even if the existing one is too small per `SUB_UID_COUNT` and
+`SUB_GID_COUNT`.
 
 There is no locking, so two users logging in at the same time may receive the
 same subuid/subgid allocation.
 
-The module depends on the `usermod(8)` command to modify the subuid/subgid
-files.
+The module depends on the `usermod(8)` command to actaully modify the
+subuid/subgid files.
