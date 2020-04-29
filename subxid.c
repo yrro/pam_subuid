@@ -109,7 +109,7 @@ int find_free_range(FILE *f, const char* owner, unsigned int min, unsigned int m
         struct subxid_entry e;
 
         if (sscanf(line, "%m[^:]:%u:%u", &sub_xid_owner, &e.start, &e.count) != 3) {
-            return -EINVAL;
+            return -EBADMSG;
         } else if (strcmp(owner, sub_xid_owner) == 0) {
             return -EEXIST;
         }

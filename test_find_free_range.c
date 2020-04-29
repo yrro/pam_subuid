@@ -35,7 +35,7 @@ CTEST(find_free_range, parse_failure) {
     FILE *f = fmemopen((char*)subuid, strlen(subuid), "r");
 
     unsigned int start;
-    ASSERT_EQUAL(-EINVAL, find_free_range(f, "owner", 30, 50, 5, &start));
+    ASSERT_EQUAL(-EBADMSG, find_free_range(f, "owner", 30, 50, 5, &start));
 }
 
 CTEST(find_free_range, entry_present) {
