@@ -70,10 +70,10 @@ int logindef_uint(FILE *f, const char *name, unsigned int default_, unsigned int
     return 0;
 }
 
-int subxid_entry_compare(const struct subxid_entry *a, const struct subxid_entry *b) {
+int subxid_entry_compare(const void *a, const void *b) {
     assert(a);
     assert(b);
-    return a->start - b->start;
+    return ((const struct subxid_entry *)a)->start - ((const struct subxid_entry *)b)->start;
 }
 
 /* Adapted from find_free_range in lib/subordinateio.c in shadow 4.8.1;
