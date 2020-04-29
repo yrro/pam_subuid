@@ -76,6 +76,11 @@ int subxid_entry_compare(const struct subxid_entry *a, const struct subxid_entry
     return a->start - b->start;
 }
 
+/* Adapted from find_free_range in lib/subordinateio.c in shadow 4.8.1;
+ * original copyright message reads:
+ *
+ * Copyright (c) 2012 - Eric Biederman
+ */
 int find_free_range(FILE *f, const char* owner, unsigned int min, unsigned int max, unsigned int count, unsigned int* result) {
     assert(f);
     assert(owner);
@@ -168,6 +173,11 @@ int find_free_range(FILE *f, const char* owner, unsigned int min, unsigned int m
 struct xid xid_u = { .c = 'u', .file = "/etc/subuid", .param_min = "SUB_UID_MIN", .param_max = "SUB_UID_MAX", .param_count = "SUB_UID_COUNT" };
 struct xid xid_g = { .c = 'g', .file = "/etc/subgid", .param_min = "SUB_GID_MIN", .param_max = "SUB_GID_MAX", .param_count = "SUB_GID_COUNT" };
 
+/* Adapted from find_new_sub_uids in libmisc/find_new_sub_uids.c in shadow 4.8.1;
+ * original copyright message reads:
+ *
+ * Copyright (c) 2012 Eric Biederman
+ */
 int find_new_subxid_range(const struct xid *which, const char *user, unsigned int *range_start, unsigned int *range_count) {
     assert(range_start);
     assert(range_count);
