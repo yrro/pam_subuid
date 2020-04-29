@@ -12,8 +12,8 @@
 
 #include "subxid.h"
 
-static void cleanup_voidp(void* p) {
-    free(*(void**)p);
+static void cleanup_voidp(void **p) {
+    free(*p);
 }
 
 static void cleanup_FILEp(FILE **fp) {
