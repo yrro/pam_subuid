@@ -51,7 +51,8 @@ it on your important production cluster. But please try it out and send
 feedback (or pull requests!)
 
 ⚠️ I'm not an expert C programmer! I've used GNU extensions and probably
-committed other sins that may turn the stomach of seasoned systems programmers.
+committed other sins that may turn the stomach of seasoned systems programmers!
+🙇
 
 subuid entries will be allocated from the range defined in `login.defs(5)` by
 `SUB_UID_MIN` and `SUB_UID_MAX`. The number of entries is determined by
