@@ -12,6 +12,7 @@
 #define PAM_SM_PASSWORD
 
 #include <security/pam_modules.h>
+#include <sys/file.h>
 #include <syslog.h>
 
 #include "subxid.h"
@@ -58,6 +59,18 @@ int pam_sm_open_session(pam_handle_t *pamh, int flags, int argc, const char *arg
         if (strcmp(argv[i], "debug") == 0) {
             debug = true;
         }
+    }
+
+    const char lockfile_path[] = "/run/lock/pam_subuid";
+    __attribute__((cleanup(cleanup_FILEp)))
+    FILE *lockfile = fopen(lockfile_path, "w+e");
+    if (!lockfile) {
+        syslog(LOG_AUTHPRIV | LOG_ALERT, "Failed to open %s for locking", lockfile_path);
+        return PAM_SESSION_ERR;
+    }
+    if (flock(fileno(lockfile), LOCK_EX) == -1) {
+        syslog(LOG_AUTHPRIV | LOG_ALERT, "Failed to lock %s", lockfile_path);
+        return PAM_SESSION_ERR;
     }
 
     const char* user;

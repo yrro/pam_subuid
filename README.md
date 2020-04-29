@@ -64,8 +64,8 @@ If a user has an existing subuid or subgid allocation then they won't receive a
 new one, even if the existing one is too small per `SUB_UID_COUNT` and
 `SUB_GID_COUNT`.
 
-There is no locking, so two users logging in at the same time may receive the
-same subuid/subgid allocation.
+Locking is performed to try to prevent two users logging in at the same time
+from receiving the same allocation.
 
 The module depends on the `usermod(8)` command to actaully modify the
 subuid/subgid files.
