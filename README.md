@@ -74,6 +74,11 @@ from receiving the same allocation.
 The module depends on the `usermod(8)` command to actaully modify the
 subuid/subgid files.
 
+It appears that `newuidmap(1)` and `newgidmap(1)` will eventually support
+retreiving subordinate user/group IDs from a network data source. That work is
+being tracked in [shadow#154(https://github.com/shadow-maint/shadow/issues/154)
+and will make this module obsolete.
+
 Acknowledgements
 ----------------
 
