@@ -1,7 +1,8 @@
 pam_subuid
 ==========
 
-A PAM module that automatically populates `/etc/subuid` and `/etc/subgid` entries.
+A PAM module that automatically populates `/etc/subuid` and `/etc/subgid` when
+a user logs in.
 
 Subordinate user and group ID entries are required in order to use container
 engines such as [Podman](https://podman.io/) in "rootless" mode.
