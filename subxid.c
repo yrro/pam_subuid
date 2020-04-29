@@ -17,7 +17,7 @@ static void cleanup_voidp(void* p) {
 }
 
 static void cleanup_FILEp(FILE **fp) {
-    if (fp) {
+    if (*fp) {
         fclose(*fp);
     }
 }
