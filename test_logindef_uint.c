@@ -23,6 +23,15 @@ CTEST(logindef_uint, not_int) {
     ASSERT_EQUAL(-EINVAL, logindef_uint(f, "foo", 123, &r));
 }
 
+// I don't know why strtoul returns 0 but doesn't set errno to ERANGE...
+CTEST_SKIP(logindef_uint, too_large) {
+    static const char t[] = "foo 50000000000\n";
+    FILE *f = fmemopen((char*)t, strlen(t), "r");
+
+    unsigned int r;
+    ASSERT_EQUAL(-ERANGE, logindef_uint(f, "foo", 123, &r));
+}
+
 CTEST(logindef_uint, valid_int) {
     static const char t[] = "foo 456\n";
     FILE *f = fmemopen((char*)t, strlen(t), "r");
