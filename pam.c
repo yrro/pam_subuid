@@ -92,7 +92,7 @@ int pam_sm_open_session(pam_handle_t *pamh, int flags, int argc, const char *arg
         int r = find_new_subxid_range(&xid_u, user, &start, &count);
         if (r == -EEXIST) {
             if (debug) {
-                syslog(LOG_AUTHPRIV | LOG_DEBUG, "User already has a subuid allocation");
+                syslog(LOG_AUTHPRIV | LOG_DEBUG, "User %s already has a subuid allocation", user);
             }
         } else if (r != 0) {
             return PAM_SESSION_ERR;
@@ -111,7 +111,7 @@ int pam_sm_open_session(pam_handle_t *pamh, int flags, int argc, const char *arg
         int r = find_new_subxid_range(&xid_g, user, &start, &count);
         if (r == -EEXIST) {
             if (debug) {
-                syslog(LOG_AUTHPRIV | LOG_DEBUG, "User already has a subgid allocation");
+                syslog(LOG_AUTHPRIV | LOG_DEBUG, "User %s already has a subgid allocation", user);
             }
         } else if (r != 0) {
             return PAM_SESSION_ERR;
