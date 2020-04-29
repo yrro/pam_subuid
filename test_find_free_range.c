@@ -12,6 +12,8 @@ CTEST(find_free_range, count_0) {
 
     unsigned int start;
     ASSERT_EQUAL(-EINVAL, find_free_range(f, "owner", 20, 80, 0, &start));
+
+    fclose(f);
 }
 
 CTEST(find_free_range, min_eq_max) {
@@ -20,6 +22,8 @@ CTEST(find_free_range, min_eq_max) {
 
     unsigned int start;
     ASSERT_EQUAL(-EINVAL, find_free_range(f, "owner", 20, 20, 10, &start));
+
+    fclose(f);
 }
 
 CTEST(find_free_range, min_gt_max) {
@@ -28,6 +32,8 @@ CTEST(find_free_range, min_gt_max) {
 
     unsigned int start;
     ASSERT_EQUAL(-EINVAL, find_free_range(f, "owner", 80, 20, 10, &start));
+
+    fclose(f);
 }
 
 CTEST(find_free_range, parse_failure) {
@@ -36,6 +42,8 @@ CTEST(find_free_range, parse_failure) {
 
     unsigned int start;
     ASSERT_EQUAL(-EBADMSG, find_free_range(f, "owner", 30, 50, 5, &start));
+
+    fclose(f);
 }
 
 CTEST(find_free_range, entry_present) {
@@ -44,6 +52,8 @@ CTEST(find_free_range, entry_present) {
 
     unsigned int start;
     ASSERT_EQUAL(-EEXIST, find_free_range(f, "owner", 30, 50, 5, &start));
+
+    fclose(f);
 }
 
 CTEST(find_free_range, entry_not_present) {
@@ -53,6 +63,8 @@ CTEST(find_free_range, entry_not_present) {
     unsigned int start;
     ASSERT_EQUAL(0, find_free_range(f, "owner", 30, 50, 5, &start));
     ASSERT_EQUAL(30, start);
+
+    fclose(f);
 }
 
 CTEST(find_free_range, room_before) {
@@ -62,6 +74,8 @@ CTEST(find_free_range, room_before) {
     unsigned int start;
     ASSERT_EQUAL(0, find_free_range(f, "owner", 30, 50, 10, &start));
     ASSERT_EQUAL(30, start);
+
+    fclose(f);
 }
 
 CTEST(find_free_range, full_before) {
@@ -71,6 +85,8 @@ CTEST(find_free_range, full_before) {
     unsigned int start;
     ASSERT_EQUAL(0, find_free_range(f, "owner", 30, 60, 10, &start));
     ASSERT_EQUAL(45, start);
+
+    fclose(f);
 }
 
 CTEST(find_free_range, fill_gap) {
@@ -80,6 +96,8 @@ CTEST(find_free_range, fill_gap) {
     unsigned int start;
     ASSERT_EQUAL(0, find_free_range(f, "owner", 30, 60, 10, &start));
     ASSERT_EQUAL(40, start);
+
+    fclose(f);
 }
 
 CTEST(find_free_range, fill_gap_reversed) {
@@ -89,6 +107,8 @@ CTEST(find_free_range, fill_gap_reversed) {
     unsigned int start;
     ASSERT_EQUAL(0, find_free_range(f, "owner", 30, 60, 10, &start));
     ASSERT_EQUAL(40, start);
+
+    fclose(f);
 }
 
 CTEST(find_free_range, skip_gap_too_small) {
@@ -98,6 +118,8 @@ CTEST(find_free_range, skip_gap_too_small) {
     unsigned int start;
     ASSERT_EQUAL(0, find_free_range(f, "owner", 30, 80, 10, &start));
     ASSERT_EQUAL(60, start);
+
+    fclose(f);
 }
 
 CTEST(find_free_range, no_room) {
@@ -106,4 +128,6 @@ CTEST(find_free_range, no_room) {
 
     unsigned int start;
     ASSERT_EQUAL(-ERANGE, find_free_range(f, "owner", 30, 60, 20, &start));
+
+    fclose(f);
 }

@@ -13,6 +13,8 @@ CTEST(logindef_uint, not_present) {
     unsigned int r;
     ASSERT_EQUAL(0, logindef_uint(f, "foo", 123, &r));
     ASSERT_EQUAL(123, r);
+
+    fclose(f);
 }
 
 CTEST(logindef_uint, not_int) {
@@ -21,6 +23,8 @@ CTEST(logindef_uint, not_int) {
 
     unsigned int r;
     ASSERT_EQUAL(-EINVAL, logindef_uint(f, "foo", 123, &r));
+
+    fclose(f);
 }
 
 // I don't know why strtoul returns 0 but doesn't set errno to ERANGE...
@@ -30,6 +34,8 @@ CTEST_SKIP(logindef_uint, too_large) {
 
     unsigned int r;
     ASSERT_EQUAL(-ERANGE, logindef_uint(f, "foo", 123, &r));
+
+    fclose(f);
 }
 
 CTEST(logindef_uint, valid_int) {
@@ -39,6 +45,8 @@ CTEST(logindef_uint, valid_int) {
     unsigned int r;
     ASSERT_EQUAL(0, logindef_uint(f, "foo", 123, &r));
     ASSERT_EQUAL(456, r);
+
+    fclose(f);
 }
 
 CTEST(logindef_uint, comment_ignored) {
@@ -48,4 +56,6 @@ CTEST(logindef_uint, comment_ignored) {
     unsigned int r;
     ASSERT_EQUAL(0, logindef_uint(f, "foo", 123, &r));
     ASSERT_EQUAL(123, r);
+
+    fclose(f);
 }
