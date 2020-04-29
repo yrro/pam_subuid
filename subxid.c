@@ -86,6 +86,10 @@ int find_free_range(FILE *f, const char* owner, unsigned int min, unsigned int m
     assert(owner);
     assert(result);
 
+    if (count == 0 || (min >= max)) {
+        return -EINVAL;
+    }
+
     size_t entries_next = 0; 
     size_t entries_max = 0;
     __attribute__((__cleanup__(cleanup_voidp)))

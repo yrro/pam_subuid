@@ -6,6 +6,30 @@
 
 #include "ctest.h"
 
+CTEST(find_free_range, count_0) {
+    static const char subuid[] = "foo:20:10\n";
+    FILE *f = fmemopen((char*)subuid, strlen(subuid), "r");
+
+    unsigned int start;
+    ASSERT_EQUAL(-EINVAL, find_free_range(f, "owner", 20, 80, 0, &start));
+}
+
+CTEST(find_free_range, min_eq_max) {
+    static const char subuid[] = "foo:20:10\n";
+    FILE *f = fmemopen((char*)subuid, strlen(subuid), "r");
+
+    unsigned int start;
+    ASSERT_EQUAL(-EINVAL, find_free_range(f, "owner", 20, 20, 10, &start));
+}
+
+CTEST(find_free_range, min_gt_max) {
+    static const char subuid[] = "foo:20:10\n";
+    FILE *f = fmemopen((char*)subuid, strlen(subuid), "r");
+
+    unsigned int start;
+    ASSERT_EQUAL(-EINVAL, find_free_range(f, "owner", 80, 20, 10, &start));
+}
+
 CTEST(find_free_range, parse_failure) {
     static const char subuid[] = "invalid entry\n";
     FILE *f = fmemopen((char*)subuid, strlen(subuid), "r");
