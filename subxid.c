@@ -51,7 +51,7 @@ int logindef_uint(FILE *f, const char *name, unsigned int default_, unsigned int
 
         errno = 0;
         char *value_tail;
-        long value_num = strtol(value, &value_tail, 10);
+        unsigned long value_num = strtoul(value, &value_tail, 10);
         if (*value_tail != '\0') {
             return -EINVAL;
         }
