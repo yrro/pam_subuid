@@ -48,9 +48,8 @@ Then log in and check for newly created entries in `/etc/subuid` and
 Remarks
 -------
 
-⚠️ This module is a proof-of-concept. It is not battle-hardened. Don't install
-it on your important production cluster. But please try it out and send
-feedback (or pull requests!)
+⚠️ This module is not battle-hardened. Don't install it on your important
+production cluster. But please try it out and send feedback (or pull requests!)
 
 ⚠️ I'm not an expert C programmer! I've used GNU extensions and probably
 committed other sins that may turn the stomach of seasoned systems programmers!
