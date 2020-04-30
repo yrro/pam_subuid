@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: ISC
+
 #include "subxid.h"
 
 #include "ctest.h"

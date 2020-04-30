@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: ISC
+
 #define _GNU_SOURCE
 
 #include <errno.h>

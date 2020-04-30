@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+
 /* Copyright 2011-2018 Bas van den Berg
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

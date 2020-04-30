@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: ISC
+
 #include <stdio.h>
 
 #define CTEST_MAIN
