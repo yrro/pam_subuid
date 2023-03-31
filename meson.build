@@ -6,11 +6,12 @@ project('pam_subuid', 'c',
   default_options : [
     'c_std=gnu11',
     'warning_level=3',
+    'debug=debugoptimized',
   ],
   meson_version : '>= 0.46',
 )
 
-add_global_arguments('-Wno-pedantic', language : 'c')
+add_global_arguments('-fstack-protector-strong', '-Werror=format-security', '-Wno-unused-parameter', language: 'c')
 
 prefixdir = get_option('prefix')
 if not prefixdir.startswith('/')
