@@ -6,7 +6,7 @@ project('pam_subuid', 'c',
   default_options : [
     'c_std=gnu11',
     'warning_level=3',
-    'debug=debugoptimized',
+    'buildtype=debugoptimized',
   ],
   meson_version : '>= 0.46',
 )
