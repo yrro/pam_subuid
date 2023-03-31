@@ -20,25 +20,25 @@
 #include "subxid.h"
 
 __attribute__((visibility ("default")))
-int pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc, const char *argv[]) {
+int pam_sm_authenticate(pam_handle_t *, int, int, const char *[]) {
     syslog(LOG_AUTH | LOG_ERR, "pam_subuid is not an auth module");
     return PAM_SERVICE_ERR;
 }
 
 __attribute__((visibility ("default")))
-int pam_sm_setcred(pam_handle_t *pamh, int flags, int argc, const char *argv[]) {
+int pam_sm_setcred(pam_handle_t *, int, int, const char *[]) {
     syslog(LOG_AUTH | LOG_ERR, "pam_subuid is not an auth module");
     return PAM_SERVICE_ERR;
 }
 
 __attribute__((visibility ("default")))
-int pam_sm_acct_mgmt(pam_handle_t *pamh, int flags, int argc, const char *argv[]) {
+int pam_sm_acct_mgmt(pam_handle_t *, int, int, const char *[]) {
     syslog(LOG_AUTH | LOG_ERR, "pam_subuid is not an account module");
     return PAM_SERVICE_ERR;
 }
 
 __attribute__((visibility ("default")))
-int pam_sm_chauthtok(pam_handle_t *pamh, int flags, int argc, const char *argv[]) {
+int pam_sm_chauthtok(pam_handle_t *, int, int, const char *[]) {
     syslog(LOG_AUTH | LOG_ERR, "pam_subuid is not a passwd module");
     return PAM_SERVICE_ERR;
 }
@@ -54,7 +54,7 @@ static void cleanup_FILEp(FILE **fp) {
 }
 
 __attribute__((visibility ("default")))
-int pam_sm_open_session(pam_handle_t *pamh, int flags, int argc, const char *argv[]) {
+int pam_sm_open_session(pam_handle_t *pamh, int, int argc, const char *argv[]) {
     bool debug = false;
 
     for (int i = 0; i < argc; i++) {
@@ -168,6 +168,6 @@ int pam_sm_open_session(pam_handle_t *pamh, int flags, int argc, const char *arg
 }
 
 __attribute__((visibility ("default")))
-int pam_sm_close_session(pam_handle_t *pamh, int flags, int argc, const char *argv[]) {
+int pam_sm_close_session(pam_handle_t *, int, int, const char *[]) {
     return PAM_SUCCESS;
 }
