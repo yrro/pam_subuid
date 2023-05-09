@@ -185,6 +185,8 @@ struct xid xid_g = { .c = 'g', .file = "/etc/subgid", .param_min = "SUB_GID_MIN"
  * Copyright (c) 2012 Eric Biederman
  */
 int find_new_subxid_range(const struct xid *which, const char *user, unsigned int *range_start, unsigned int *range_count) {
+    assert(which);
+    assert(user);
     assert(range_start);
     assert(range_count);
 
