@@ -104,7 +104,6 @@ int pam_sm_open_session(pam_handle_t *pamh, int flags, int argc, const char *arg
     {
         uid_t start;
         unsigned int count;
-        struct xid xid_u;
         int r = find_new_subxid_range(&xid_u, user, &start, &count);
         if (r == -EEXIST) {
             if (debug) {
@@ -124,7 +123,6 @@ int pam_sm_open_session(pam_handle_t *pamh, int flags, int argc, const char *arg
     {
         gid_t start;
         unsigned int count;
-        struct xid xid_g;
         int r = find_new_subxid_range(&xid_g, user, &start, &count);
         if (r == -EEXIST) {
             if (debug) {
