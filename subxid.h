@@ -14,8 +14,8 @@ struct xid {
     const char *param_count;
 };
 
-struct xid xid_u;
-struct xid xid_g;
+extern struct xid xid_u;
+extern struct xid xid_g;
 
 struct subxid_entry {
     unsigned int start;
